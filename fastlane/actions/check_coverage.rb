@@ -15,7 +15,7 @@ module Fastlane
         project_coverage = 0
 
 		unless "#{params[:limit]}".to_s.strip.empty?
-        	UI.message("Coverage limit set to #{coverage_limit}%")
+        	UI.message("Coverage limit set to #{params[:limit]}%")
         else
         	coverage_limit = "#{params[:limit]}"
 		end
