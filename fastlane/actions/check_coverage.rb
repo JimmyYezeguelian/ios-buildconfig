@@ -21,7 +21,7 @@ module Fastlane
       	command_output = "slather coverage --scheme #{scheme} --workspace #{workspace} #{basename} #{project}"
 
       	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last
-      	coverage_output = coverage_output[0]
+      	coverage_string = coverage_output.find {|e| e%1 == 0}
       	integer_value = coverage_output.to_f
 
 		raise "You are under the coverage limit (#{coverage_limit}%): #{integer_value}%" unless integer_value >= coverage_limit
