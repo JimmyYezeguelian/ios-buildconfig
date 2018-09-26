@@ -11,6 +11,18 @@ platform :ios do
     xcversion(version: ">= 9.0")
   end
 
+  desc "Code coverage"
+  lane :coverage do |options|
+    check_coverage(
+        limit: 80,
+        scheme: ENV['REM_FL_TESTS_SCHEME'],
+        basename: ENV['REM_FL_TESTS_SLATHER_BASENAME'],
+        project: ENV['REM_FL_TESTS_PROJECT'],
+        workspace: ENV['REM_FL_SAMPLE_WORKSPACE']
+      )
+  end
+
+
   desc "Run unit tests"
   lane :shared_tests do |options|
     cocoapods(repo_update: ENV['REM_FL_CP_REPO_UPDATE'] || false)
