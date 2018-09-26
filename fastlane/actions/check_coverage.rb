@@ -30,9 +30,7 @@ module Fastlane
 
       	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last.first
 
-      	UI.message("COVERAGE_OUTPUT: #{coverage_output}")
-
-      	UI.message("Full coverage: #{coverage_string}")
+      	UI.message("Full coverage: #{coverage_output}")
 
 		raise "You are under the coverage limit (#{coverage_limit}%): #{coverage_output}%" unless coverage_output >= coverage_limit
 
