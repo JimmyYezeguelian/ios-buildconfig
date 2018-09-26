@@ -13,13 +13,7 @@ platform :ios do
   desc "Code coverage"
   lane :coverage do |options|
     #build(options)
-    check_coverage(
-        limit: 80,
-        scheme: ENV['REM_FL_TESTS_SCHEME'],
-        basename: ENV['REM_FL_TESTS_SLATHER_BASENAME'],
-        project: ENV['REM_FL_TESTS_PROJECT'],
-        workspace: ENV['REM_FL_SAMPLE_WORKSPACE']
-      )
+    check_coverage(options)
   end
 
 
