@@ -34,6 +34,8 @@ module Fastlane
         workspace = "#{params[:workspace]}"
         # Slather command
 		slather_command = "slather coverage --scheme #{scheme} #{basename} --workspace #{workspace} --binary-basename #{basename} #{project}"
+
+		UI.message("Executing #{slather_command}")
         # Shell command to execute
       	command_output = %x[#{slather_command}]
  		# Scan the output to find the coverage %
