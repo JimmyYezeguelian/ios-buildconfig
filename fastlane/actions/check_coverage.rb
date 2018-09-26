@@ -18,7 +18,7 @@ module Fastlane
         workspace = "#{params[:workspace]}"
 
         # Shell acommand to execute
-      	command_output = %x[slather coverage --scheme #{scheme} --workspace #{workspace} #{basename} #{project}]
+      	command_output = %x[slather coverage --scheme #{scheme} --workspace #{workspace} --binary-basename #{basename} #{project}]
 
       	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last
 
