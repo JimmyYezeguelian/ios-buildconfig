@@ -6,9 +6,7 @@ module Fastlane
 
     class CheckCoverageAction < Action
       def self.run(params)
-        # fastlane will take care of reading in the parameter and fetching the environment variable:
-        UI.message "Parameter API Token: #{params[:api_token]}."
-        
+        # fastlane will take care of reading in the parameter and fetching the environment variable:        
         def self.coverage_limit
         	"#{params[:limit]}" || 80
         end
@@ -53,18 +51,31 @@ module Fastlane
         
         # Below a few examples
         [
-          FastlaneCore::ConfigItem.new(key: :api_token,
-                                       env_name: "FL_CHECK_COVERAGE_API_TOKEN", # The name of the environment variable
-                                       description: "API Token for CheckCoverageAction", # a short description of this parameter
-                                       verify_block: proc do |value|
-                                          UI.user_error!("No API token for CheckCoverageAction given, pass using `api_token: 'token'`") unless (value and not value.empty?)
-                                          # UI.user_error!("Couldn't find file at path '#{value}'") unless File.exist?(value)
-                                       end),
-          FastlaneCore::ConfigItem.new(key: :development,
-                                       env_name: "FL_CHECK_COVERAGE_DEVELOPMENT",
-                                       description: "Create a development certificate instead of a distribution one",
-                                       is_string: false, # true: verifies the input is a string, false: every kind of value
-                                       default_value: false) # the default value if the user didn't provide one
+          FastlaneCore::ConfigItem.new(key: :limit,
+                                       env_name: "FL_CHECK_COVERAGE_LIMIT", # The name of the environment variable
+                                       description: "The % coverage to reach", # a short description of this parameter
+                                       is_string: false
+                                       ),
+          FastlaneCore::ConfigItem.new(key: :scheme,
+                                       env_name: "FL_CHECK_COVERAGE_SCHEME",
+                                       description: "The project scheme",
+                                       is_string: true, # true: verifies the input is a string, false: every kind of value
+                                       default_value: false), # the default value if the user didn't provide one
+          FastlaneCore::ConfigItem.new(key: :project,
+                               env_name: "FL_CHECK_COVERAGE_PROJECT",
+                               description: "The project",
+                               is_string: true, # true: verifies the input is a string, false: every kind of value
+                               default_value: false), # the default value if the user didn't provide one
+          FastlaneCore::ConfigItem.new(key: :workspace,
+                                       env_name: "FL_CHECK_COVERAGE_WORKSPACE", # The name of the environment variable
+                                       description: "The workspace", # a short description of this parameter
+                                       is_string: true
+                                       ),
+          FastlaneCore::ConfigItem.new(key: :basename,
+                                       env_name: "FL_CHECK_COVERAGE_BASENAME",
+                                       description: "The project basename",
+                                       is_string: true, # true: verifies the input is a string, false: every kind of value
+                                       default_value: false)
         ]
       end
 
@@ -82,7 +93,7 @@ module Fastlane
 
       def self.authors
         # So no one will ever forget your contribution to fastlane :) You are awesome btw!
-        ["Your GitHub/Twitter Name"]
+        ["Jimmy Yezeguelian"]
       end
 
       def self.is_supported?(platform)
