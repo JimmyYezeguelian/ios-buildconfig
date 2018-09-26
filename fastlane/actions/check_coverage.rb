@@ -7,8 +7,10 @@ module Fastlane
     class CheckCoverageAction < Action
       def self.run(params)
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
-        coverage_limit = 80
-        if "#{params[:limit]}"
+        coverage_limit = 0
+        if "#{params[:limit]}".to_s.empty?
+        	coverage_limit = 80
+        else
         	coverage_limit = "#{params[:limit]}"
         end
 
@@ -19,29 +21,18 @@ module Fastlane
         project = "#{params[:project]}"
         basename = "#{params[:basename]}"
         workspace = "#{params[:workspace]}"
-
+        # Slather command
 		command = "slather coverage --scheme #{scheme} --binary-basename #{basename} --workspace #{workspace} --binary-basename #{basename} #{project}"
 
-		UI.message(scheme)
-		UI.message(project)
-		UI.message(basename)
-		UI.message(workspace)
-		UI.message(command)
-
-        # Shell acommand to execute
+        # Shell command to execute
       	command_output = %x[#{command}]
-
+ 		# Scan the output to find the coverage %
       	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last.first.to_i
-
-      	UI.message("Full coverage: #{coverage_output}")
-
+      	# Raise an error if the coverage goal is not reach
 		raise "You are under the coverage limit (#{coverage_limit}%): #{coverage_output}%" unless coverage_output >= coverage_limit.to_i
 
-		printf "Coverage result #{coverage_output}"
+		printf "Coverage result #{coverage_output}%"
 
-        # sh "shellcommand ./path"
-
-        # Actions.lane_context[SharedValues::CHECK_COVERAGE_CUSTOM_VALUE] = "my_val"
       end
 
       #####################################################
