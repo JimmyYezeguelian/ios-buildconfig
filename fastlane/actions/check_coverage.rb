@@ -33,7 +33,9 @@ module Fastlane
       	UI.message("COVERAGE_OUTPUT: #{coverage_output}")
 
       	coverage_string = coverage_output.find{|e| e%1 == 0}
-      	integer_value = coverage_output.to_f
+
+      	UI.message("Full coverage: #{coverage_string}")
+      	integer_value = coverage_output
 
 		raise "You are under the coverage limit (#{coverage_limit}%): #{integer_value}%" unless integer_value >= coverage_limit
 
