@@ -28,7 +28,7 @@ module Fastlane
         # Shell acommand to execute
       	command_output = %x[#{command}]
 
-      	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last.first
+      	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last.first.to_i
 
       	UI.message("Full coverage: #{coverage_output}")
 
