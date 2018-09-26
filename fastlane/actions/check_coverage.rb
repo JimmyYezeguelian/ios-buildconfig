@@ -8,6 +8,7 @@ module Fastlane
       def self.run(params)
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
         coverage_limit = 0
+        project_coverage = 0
         printf "#{params[:limit]}"
         if "#{params[:limit]}".to_s.empty?
         	coverage_limit = 80
@@ -28,11 +29,24 @@ module Fastlane
         # Shell command to execute
       	command_output = %x[#{command}]
  		# Scan the output to find the coverage %
-      	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last.first.to_i
-      	# Raise an error if the coverage goal is not reach
-		raise "You are under the coverage limit (#{coverage_limit}%): #{coverage_output}%" unless coverage_output >= coverage_limit.to_i
+ 		scan_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/)
+       	UI.message("Scan output: #{scan_output}")
+		if scan_output.length > 0
+      		coverage_array = scan_output.last
+      		UI.message("Coverage array: #{coverage_array}")
+      		if coverage_array.to_s.empty?
+	      		coverage_end = coverage_array.first
+      			UI.message("Coverage first elem: #{coverage_array}")
+	      		if coverage_end.to_s.empty?
+	      			project_coverage = coverage_end.to_i
+					printf "Coverage result #{project_coverage}%"
+      			end
+      		end
+ 		end
 
-		printf "Coverage result #{coverage_output}%"
+      	# Raise an error if the coverage goal is not reach
+		raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage >= coverage_limit.to_i
+
 
       end
 
