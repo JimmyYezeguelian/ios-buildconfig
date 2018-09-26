@@ -47,16 +47,12 @@ module Fastlane
       	command_output = %x[#{slather_command}]
  		# Scan the output to find the coverage %
  		scan_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/)
-       	UI.message("Scan output: #{scan_output}")
 		if scan_output.length > 0
       		coverage_array = scan_output.last
-      		UI.message("Coverage array: #{coverage_array}")
       		if !coverage_array.to_s.empty?
 	      		coverage_end = coverage_array.first
-      			UI.message("Coverage first elem: #{coverage_array}")
 	      		if !coverage_end.to_s.empty?
 	      			project_coverage = coverage_end.to_i
-					UI.message("Coverage result #{project_coverage}%")
 			
 					# Raise an error if the coverage goal is not reach
 					raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage >= coverage_limit.to_i
