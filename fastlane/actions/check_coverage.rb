@@ -11,7 +11,6 @@ module Fastlane
         coverage_limit = 0
         project_coverage = 0
 
-
         if "#{params[:limit]}".to_s.empty?
         	coverage_limit = 80
         else
@@ -27,6 +26,13 @@ module Fastlane
         workspace = "#{params[:workspace]}"
         # Slather command
 		command = "slather coverage --scheme #{scheme} --binary-basename #{basename} --workspace #{workspace} --binary-basename #{basename} #{project}"
+
+		UI.message(scheme)
+		UI.message(project)
+		UI.message(basename)
+		UI.message(workspace)
+		UI.message(command)
+
 
         # Shell command to execute
       	command_output = %x[#{command}]
