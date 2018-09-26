@@ -17,23 +17,31 @@ module Fastlane
         	coverage_limit = "#{params[:limit]}"
         end
 
-        UI.message("Coverage limit set to #{coverage_limit}")
+        UI.message("Coverage limit set to #{coverage_limit}%")
 
-        # Parameter
+        # Retrieve options
         scheme = "#{params[:scheme]}"
         project = "#{params[:project]}"
-        basenames = "#{params[:basename]}".split(",")
-
-		basename = ""
-		for base_name in basenames
-			basename += " --binary-basename #{base_name}"
-		end
-
-		UI.message("basename: #{basename}")
-
         workspace = "#{params[:workspace]}"
+
+        basenames = "#{params[:basename]}".split(",")
+    	basename_option = ""
+	    if basename.length > 1
+        	for i in basename.length
+        		current_basename = basenames.find(i).to_s
+        		if i == 0
+        			basename_option = "--binary-basename #{current_basename} "
+        		else
+					basename_option = "--binary-basename #{current_basename}"
+        		end
+        	end
+        else
+			basename_option = "--binary-basename #{params[:basename]}"
+        end
+
+
         # Slather command
-		slather_command = "slather coverage --scheme #{scheme} #{basename} --workspace #{workspace} #{project}"
+		slather_command = "slather coverage --scheme #{scheme} #{basename_option} --workspace #{workspace} #{project}"
 
 		UI.message("Executing #{slather_command}")
         # Shell command to execute
