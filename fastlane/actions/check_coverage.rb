@@ -25,13 +25,12 @@ module Fastlane
 		UI.message(workspace)
 		UI.message(command)
 
-
         # Shell acommand to execute
       	command_output = %x[#{command}]
 
-      	UI.message(command_output)
-
       	coverage_output = command_output.scan(/Test Coverage: (\s+(\.\s+)?)/).last
+
+      	UI.message("COVERAGE_OUTPUT: #{coverage_output}")
 
       	coverage_string = coverage_output.find{|e| e%1 == 0}
       	integer_value = coverage_output.to_f
