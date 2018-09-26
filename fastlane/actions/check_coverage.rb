@@ -32,7 +32,7 @@ module Fastlane
 
       	UI.message("Full coverage: #{coverage_output}")
 
-		raise "You are under the coverage limit (#{coverage_limit}%): #{coverage_output}%" unless coverage_output >= coverage_limit
+		raise "You are under the coverage limit (#{coverage_limit}%): #{coverage_output}%" unless coverage_output >= coverage_limit.to_i
 
 		printf "Coverage result #{coverage_output}"
 
