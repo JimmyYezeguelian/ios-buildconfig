@@ -32,7 +32,7 @@ module Fastlane
 
       	UI.message("COVERAGE_OUTPUT: #{coverage_output}")
 
-      	coverage_string = coverage_output.find{|e| e%1 == 0}
+      	coverage_string = coverage_output.first
 
       	UI.message("Full coverage: #{coverage_string}")
       	integer_value = coverage_output
