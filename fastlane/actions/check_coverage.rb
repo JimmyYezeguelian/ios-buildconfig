@@ -28,16 +28,13 @@ module Fastlane
         # Shell acommand to execute
       	command_output = %x[#{command}]
 
-      	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last
+      	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last.first
 
       	UI.message("COVERAGE_OUTPUT: #{coverage_output}")
 
-      	coverage_string = coverage_output.first
-
       	UI.message("Full coverage: #{coverage_string}")
-      	integer_value = coverage_output
 
-		raise "You are under the coverage limit (#{coverage_limit}%): #{integer_value}%" unless integer_value >= coverage_limit
+		raise "You are under the coverage limit (#{coverage_limit}%): #{coverage_output}%" unless coverage_output >= coverage_limit
 
 		printf "Coverage result #{coverage_output}"
 
