@@ -20,10 +20,11 @@ module Fastlane
         # Shell acommand to execute
       	command_output = "slather coverage --scheme #{scheme} --workspace #{workspace} #{basename} #{project}"
 
-      	coverage_output = command_output.match(/Test Coverage: (\d+(\.\d+)?)/)[0].to_s
-		full_coverage = coverage_output.match(/\d+[,.]\d+/).to_s.to_f	
+      	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last
+      	coverage_output = coverage_output.first
+      	integer_value = coverage_output.to_f
 
-		raise "You are under the coverage limit (#{coverage_limit}%): #{full_coverage}%" unless full_coverage >= coverage_limit
+		raise "You are under the coverage limit (#{coverage_limit}%): #{integer_value}%" unless integer_value >= coverage_limit
 
 		printf "Coverage result #{coverage_output}"
 
