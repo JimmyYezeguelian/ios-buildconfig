@@ -7,9 +7,11 @@ module Fastlane
     class CheckCoverageAction < Action
       def self.run(params)
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
+
         coverage_limit = 0
         project_coverage = 0
-        printf "#{params[:limit]}"
+
+
         if "#{params[:limit]}".to_s.empty?
         	coverage_limit = 80
         else
@@ -40,12 +42,12 @@ module Fastlane
 	      		if coverage_end.to_s.empty?
 	      			project_coverage = coverage_end.to_i
 					printf "Coverage result #{project_coverage}%"
+			
+					# Raise an error if the coverage goal is not reach
+					raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage >= coverage_limit.to_i
       			end
       		end
  		end
-
-      	# Raise an error if the coverage goal is not reach
-		raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage >= coverage_limit.to_i
 
 
       end
