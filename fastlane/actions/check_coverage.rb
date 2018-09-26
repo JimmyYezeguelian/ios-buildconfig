@@ -28,11 +28,10 @@ module Fastlane
     	basename_option = ""
 	    if basenames.length > 1
 	    	basenames.each_with_index {|val, index|
-	    		puts "#{index} => #{val}"
-	    		if index == 1
+	    		if index == 0
         			basename_option = "--binary-basename #{val} "
         		else
-					basename_option = "--binary-basename #{val}"
+					basename_option += "--binary-basename #{val}"
         		end
 	    	}
         else
