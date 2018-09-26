@@ -27,14 +27,13 @@ module Fastlane
         basenames = "#{params[:basename]}".split(",")
     	basename_option = ""
 	    if basenames.length > 1
-        	for i in (0..basenames.length)
-        		current_basename = basenames.find(i).to_s
-        		if i == 0
+	    	basenames.each_with_index {|val, index|
+	    		if index == 0
         			basename_option = "--binary-basename #{current_basename} "
         		else
 					basename_option = "--binary-basename #{current_basename}"
         		end
-        	end
+	    	}
         else
 			basename_option = "--binary-basename #{params[:basename]}"
         end
