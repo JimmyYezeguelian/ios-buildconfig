@@ -7,7 +7,10 @@ module Fastlane
     class CheckCoverageAction < Action
       def self.run(params)
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
-        coverage_limit = "#{params[:limit]}" || 80
+        coverage_limit = 80
+        if "#{params[:limit]}"
+        	coverage_limit = "#{params[:limit]}"
+        end
 
         UI.message("Coverage limit set to #{coverage_limit}")
 
