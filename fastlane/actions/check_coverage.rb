@@ -13,11 +13,12 @@ module Fastlane
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
 
         project_coverage = 0
-    	coverage_limit = "#{params[:limit]}"
 
-		unless coverage_limit.to_s.strip.empty?
+		unless "#{params[:limit]}".to_s.strip.empty?
         	UI.message("Coverage limit set to #{coverage_limit}%")
-        end
+        else
+        	coverage_limit = "#{params[:limit]}"
+		end
 
 
         # Retrieve options
@@ -57,7 +58,7 @@ module Fastlane
 					UI.message("Coverage result #{project_coverage}%".green)
 			
 					# Raise an error if the coverage goal is not reach
-			        unless coverage_limit.to_s.strip.empty?
+			        unless "#{params[:limit]}".to_s.strip.empty?
 						raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage >= coverage_limit.to_i
 					end
 
