@@ -20,7 +20,9 @@ module Fastlane
         # Shell acommand to execute
       	command_output = %x[slather coverage --scheme #{scheme} --workspace #{workspace} --binary-basename #{basename} #{project}]
 
-      	coverage_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/).last
+      	UI.message(command_output)
+
+      	coverage_output = command_output.scan(/Test Coverage: (\s+(\.\s+)?)/).last
 
       	coverage_string = coverage_output.find{|e| e%1 == 0}
       	integer_value = coverage_output.to_f
