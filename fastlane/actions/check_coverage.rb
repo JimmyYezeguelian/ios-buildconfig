@@ -90,7 +90,7 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :limit,
                                        env_name: "FL_CHECK_COVERAGE_LIMIT", # The name of the environment variable
                                        description: "The % coverage to reach", # a short description of this parameter
-                                       is_string: false
+                                       is_string: false,
                                        default_value: false,
                                        optional: true),
           FastlaneCore::ConfigItem.new(key: :scheme,
