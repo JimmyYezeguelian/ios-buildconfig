@@ -29,6 +29,8 @@ module Fastlane
 			basename += " --binary-basename #{base_name}"
 		end
 
+		UI.message("basename: #{basename}")
+
         workspace = "#{params[:workspace]}"
         # Slather command
 		slather_command = "slather coverage --scheme #{scheme} #{basename} --workspace #{workspace} --binary-basename #{basename} #{project}"
