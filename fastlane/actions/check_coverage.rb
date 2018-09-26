@@ -42,10 +42,10 @@ module Fastlane
 		if scan_output.length > 0
       		coverage_array = scan_output.last
       		UI.message("Coverage array: #{coverage_array}")
-      		if coverage_array.to_s.empty?
+      		if !coverage_array.to_s.empty?
 	      		coverage_end = coverage_array.first
       			UI.message("Coverage first elem: #{coverage_array}")
-	      		if coverage_end.to_s.empty?
+	      		if !coverage_end.to_s.empty?
 	      			project_coverage = coverage_end.to_i
 					printf "Coverage result #{project_coverage}%"
 			
