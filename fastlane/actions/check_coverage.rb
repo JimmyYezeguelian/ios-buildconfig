@@ -8,6 +8,7 @@ module Fastlane
       def self.run(params)
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
         coverage_limit = 0
+        printf "#{params[:limit]}"
         if "#{params[:limit]}".to_s.empty?
         	coverage_limit = 80
         else
