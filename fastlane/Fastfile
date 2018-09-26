@@ -10,9 +10,8 @@ platform :ios do
     get_version_from_date
   end
 
-  desc "Code coverage"
+  desc "Slather code coverage with limit"
   lane :coverage do |options|
-    #build(options)
     check_coverage(options)
   end
 

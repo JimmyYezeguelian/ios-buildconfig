@@ -12,16 +12,13 @@ module Fastlane
       def self.run(params)
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
 
-        coverage_limit = 0
         project_coverage = 0
+    	coverage_limit = "#{params[:limit]}"
 
-        if "#{params[:limit]}".to_s.empty?
-        	coverage_limit = 80
-        else
-        	coverage_limit = "#{params[:limit]}"
+        if !coverage_limit.to_s.empty?
+        	UI.message("Coverage limit set to #{coverage_limit}%")
         end
 
-        UI.message("Coverage limit set to #{coverage_limit}%")
 
         # Retrieve options
         scheme = "#{params[:scheme]}"
@@ -60,7 +57,10 @@ module Fastlane
 					UI.message("Coverage result #{project_coverage}%".green)
 			
 					# Raise an error if the coverage goal is not reach
-					raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage >= coverage_limit.to_i
+			        if !coverage_limit.to_s.empty?
+						raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage >= coverage_limit.to_i
+					end
+
       			end
       		end
  		end
@@ -79,7 +79,7 @@ module Fastlane
       def self.details
         # Optional:
         # this is your chance to provide a more detailed description of this action
-        "You can use this action to make the build fails if the coverage goal is not reach. This command require slather to be installed"
+        "You can use this action to make the build fails if the coverage goal is not reach. This command require slather to be installed (gem install slather)"
       end
 
       def self.available_options
@@ -91,27 +91,33 @@ module Fastlane
                                        env_name: "FL_CHECK_COVERAGE_LIMIT", # The name of the environment variable
                                        description: "The % coverage to reach", # a short description of this parameter
                                        is_string: false
-                                       ),
+                                       default_value: false,
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :scheme,
                                        env_name: "FL_CHECK_COVERAGE_SCHEME",
                                        description: "The project scheme",
                                        is_string: true, # true: verifies the input is a string, false: every kind of value
-                                       default_value: false), # the default value if the user didn't provide one
+                                       default_value: false,
+                                       optional: false), # the default value if the user didn't provide one
           FastlaneCore::ConfigItem.new(key: :project,
 		                               env_name: "FL_CHECK_COVERAGE_PROJECT",
 		                               description: "The project",
 		                               is_string: true, # true: verifies the input is a string, false: every kind of value
-		                               default_value: false), # the default value if the user didn't provide one
+		                               default_value: false,
+                                       optional: false), # the default value if the user didn't provide one
           FastlaneCore::ConfigItem.new(key: :workspace,
                                        env_name: "FL_CHECK_COVERAGE_WORKSPACE", # The name of the environment variable
                                        description: "The workspace", # a short description of this parameter
-                                       is_string: true
+                                       is_string: true,
+                                       default_value: false,
+                                       optional: false
                                        ),
           FastlaneCore::ConfigItem.new(key: :basename,
                                        env_name: "FL_CHECK_COVERAGE_BASENAME",
                                        description: "You can provide multiple projects basenane like \"B1,B2,B3\" or juste one like B1",
                                        is_string: true, # true: verifies the input is a string, false: every kind of value
-                                       default_value: false)
+                                       default_value: false,
+                                       optional: false)
         ]
       end
 
@@ -129,7 +135,7 @@ module Fastlane
 
       def self.authors
         # So no one will ever forget your contribution to fastlane :) You are awesome btw!
-        ["Jimmy Yezeguelian"]
+        ["Jimmy Yezeguelian, j.yezeguelian@gmail.com"]
       end
 
       def self.is_supported?(platform)
