@@ -19,23 +19,21 @@ module Fastlane
 
         UI.message("Coverage limit set to #{coverage_limit}")
 
-        # Paramater
+        # Parameter
         scheme = "#{params[:scheme]}"
         project = "#{params[:project]}"
-        basename = "#{params[:basename]}"
+        basenames = "#{params[:basename]}".split(",")
+
+		basename = ""
+		for base_name in basenames
+			basename += " --binary-basename #{base_name}"
+		end
+
         workspace = "#{params[:workspace]}"
         # Slather command
-		command = "slather coverage --scheme #{scheme} --binary-basename #{basename} --workspace #{workspace} --binary-basename #{basename} #{project}"
-
-		UI.message(scheme)
-		UI.message(project)
-		UI.message(basename)
-		UI.message(workspace)
-		UI.message(command)
-
-
+		slather_command = "slather coverage --scheme #{scheme} #{basename} --workspace #{workspace} --binary-basename #{basename} #{project}"
         # Shell command to execute
-      	command_output = %x[#{command}]
+      	command_output = %x[#{slather_command}]
  		# Scan the output to find the coverage %
  		scan_output = command_output.scan(/Test Coverage: (\d+(\.\d+)?)/)
        	UI.message("Scan output: #{scan_output}")
@@ -47,7 +45,7 @@ module Fastlane
       			UI.message("Coverage first elem: #{coverage_array}")
 	      		if !coverage_end.to_s.empty?
 	      			project_coverage = coverage_end.to_i
-					printf "Coverage result #{project_coverage}%"
+					UI.message("Coverage result #{project_coverage}%")
 			
 					# Raise an error if the coverage goal is not reach
 					raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage >= coverage_limit.to_i
@@ -88,10 +86,10 @@ module Fastlane
                                        is_string: true, # true: verifies the input is a string, false: every kind of value
                                        default_value: false), # the default value if the user didn't provide one
           FastlaneCore::ConfigItem.new(key: :project,
-                               env_name: "FL_CHECK_COVERAGE_PROJECT",
-                               description: "The project",
-                               is_string: true, # true: verifies the input is a string, false: every kind of value
-                               default_value: false), # the default value if the user didn't provide one
+		                               env_name: "FL_CHECK_COVERAGE_PROJECT",
+		                               description: "The project",
+		                               is_string: true, # true: verifies the input is a string, false: every kind of value
+		                               default_value: false), # the default value if the user didn't provide one
           FastlaneCore::ConfigItem.new(key: :workspace,
                                        env_name: "FL_CHECK_COVERAGE_WORKSPACE", # The name of the environment variable
                                        description: "The workspace", # a short description of this parameter
@@ -99,7 +97,7 @@ module Fastlane
                                        ),
           FastlaneCore::ConfigItem.new(key: :basename,
                                        env_name: "FL_CHECK_COVERAGE_BASENAME",
-                                       description: "The project basename",
+                                       description: "You can provide multiple projects basenane like \"B1,B2,B3\" or juste one like B1",
                                        is_string: true, # true: verifies the input is a string, false: every kind of value
                                        default_value: false)
         ]
