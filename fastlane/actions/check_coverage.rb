@@ -7,7 +7,7 @@ module Fastlane
     class CheckCoverageAction < Action
       def self.run(params)
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
-        coverage_limit"#{params[:limit]}" || 80
+        coverage_limit = "#{params[:limit]}" || 80
 
         UI.message("Coverage limit set to #{coverage_limit}")
 
@@ -17,7 +17,7 @@ module Fastlane
         basename = "#{params[:basename]}"
         workspace = "#{params[:workspace]}"
 
-        # Shell command to execute
+        # Shell acommand to execute
       	command_output = "slather coverage --scheme #{scheme} --workspace #{workspace} #{basename} #{project}"
 
       	coverage_output = command_output.match(/Test Coverage: (\d+(\.\d+)?)/)[0].to_s
