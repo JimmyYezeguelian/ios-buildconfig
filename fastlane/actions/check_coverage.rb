@@ -13,6 +13,7 @@ module Fastlane
         # fastlane will take care of reading in the parameter and fetching the environment variable:        
 
         project_coverage = 0
+        coverage_limit = 0
 
 		unless 	"#{params[:limit]}".to_s.strip.empty?
         	UI.message("Coverage limit set to #{params[:limit]}%")
