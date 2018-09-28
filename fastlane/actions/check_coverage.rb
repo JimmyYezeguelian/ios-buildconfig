@@ -15,7 +15,7 @@ module Fastlane
         project_coverage = 0
         coverage_limit = 0
 
-		unless "#{params[:limit]}".to_s.strip.empty?
+		if "#{params[:limit]}"
         	UI.message("Coverage limit set to #{params[:limit]}%")
         	coverage_limit = "#{params[:limit]}".to_i
 		end
@@ -57,7 +57,7 @@ module Fastlane
 	      			project_coverage = coverage_end.to_i
 			
 					# Raise an error if the coverage goal is not reach
-			        unless "#{params[:limit]}".to_s.strip.empty?
+			       	if "#{params[:limit]}"
 			        	UI.message("Comparing coverage result to the limit: #{project_coverage} => #{coverage_limit} ?")
 						raise "You are under the coverage limit (#{coverage_limit}%): #{project_coverage}%" unless project_coverage.to_i >= coverage_limit.to_i
 					end
